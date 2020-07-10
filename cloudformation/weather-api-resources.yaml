@@ -1,0 +1,37 @@
+---
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  WeatherApiGatewayBasePath:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+  WeatherApiGatewayCityPath:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+  WeatherApiGatewayLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: weather-api-lambda
+      Description: Lambda will send weather information with a city being passed in as an argument.
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: s3://vixay-lambdas/weather-api.zip
+      MemorySize: 128
+      Timeout: 5
+      Role: arn:aws:iam::505402633935:role/weather-api
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: '/'
+            Method: get
+            RestApiId:
+              Ref: WeatherApiGatewayBasePath
+        CityApiEvent:
+          Type: Api
+          Properties:
+            Path: '/{city}'
+            Method: get
+            RestApiId:
+              Ref: WeatherApiGatewayCityPath
