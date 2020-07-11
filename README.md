@@ -11,3 +11,4 @@
 - Lambda
 - API Gateway
 - CloudFormation
+- Cloudwatch
