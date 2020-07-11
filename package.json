@@ -6,12 +6,21 @@
   "scripts": {
     "build": "zip -r ./weather-api.zip . && aws s3 rm s3://vixay-lambdas/weather-api.zip && aws s3 cp weather-api.zip s3://vixay-lambdas/weather-api.zip",
     "deploy": "npm run build && aws cloudformation deploy --region us-west-2 --template-file ./cloudformation/weather-api-resources.yaml --stack-name weather-api-lambda --capabilities CAPABILITY_IAM",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha *.test.js",
+    "test:watch": "mocha *.test.js --watch",
+    "coverage": "nyc --reporter=html mocha *.test.js"
   },
   "author": "Theodore Vixay",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
     "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.0.1",
+    "nock": "^13.0.2",
+    "nyc": "^15.1.0"
   }
 }
