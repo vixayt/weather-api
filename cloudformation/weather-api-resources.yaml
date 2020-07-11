@@ -1,14 +1,6 @@
 ---
 Transform: AWS::Serverless-2016-10-31
 Resources:
-  WeatherApiGatewayBasePath:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: prod
-  WeatherApiGatewayCityPath:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: prod
   WeatherApiGatewayLambda:
     Type: AWS::Serverless::Function
     Properties:
@@ -26,12 +18,8 @@ Resources:
           Properties:
             Path: '/'
             Method: get
-            RestApiId:
-              Ref: WeatherApiGatewayBasePath
         CityApiEvent:
           Type: Api
           Properties:
             Path: '/{city}'
             Method: get
-            RestApiId:
-              Ref: WeatherApiGatewayCityPath

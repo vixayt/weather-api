@@ -4,7 +4,8 @@
   "description": "AWS Lambda that will return ",
   "main": "index.js",
   "scripts": {
-    "build": "zip -r ./weather-api.zip . && aws s3 rm s3://vixay-lambdas/weather-api.zip && aws s3 cp weather-api.zip s3://vixay-lambdas/weather-api.zip",
+    "prepare": "rm -rf .nyc_output && rm -rf coverage && rm -f weather-api.zip",
+    "build": "npm run prepare && zip -r ./weather-api.zip . -x '.*.test*' -x '*.git*' && aws s3 rm s3://vixay-lambdas/weather-api.zip && aws s3 cp weather-api.zip s3://vixay-lambdas/weather-api.zip",
     "deploy": "npm run build && aws cloudformation deploy --region us-west-2 --template-file ./cloudformation/weather-api-resources.yaml --stack-name weather-api-lambda --capabilities CAPABILITY_IAM",
     "test": "mocha *.test.js",
     "test:watch": "mocha *.test.js --watch",
